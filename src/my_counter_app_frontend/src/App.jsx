@@ -36,6 +36,19 @@ function App() {
     }
   };
 
+  const decrement = async () => {
+    if (loading) return;
+    try {
+      setLoading(true);
+      let result = await my_counter_app_backend.dec();
+      console.log(`[decrement] result:`, result);
+      console.log(`[decrement] hash:`, result.hash);
+      await fetchCount();
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const reset = async () => {
     if (loading) return; // Cancel if waiting for a new count
     try {
@@ -58,7 +71,7 @@ function App() {
       <button onClick={increment} style={{ opacity: loading ? 0.5 : 1 }} >Increment</button>
       <br />
       <br />
-      <button>Decrement (Add your code)</button>
+      <button onClick={decrement} style={{ opacity: loading ? 0.5 : 1 }}>Decrement</button>
       <br />
       <br />
       <button onClick={reset} style={{ opacity: loading ? 0.5 : 1 }} >Reset to zero</button>
